@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-
+import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 
 export default async function Home() {
@@ -10,5 +10,12 @@ export default async function Home() {
     redirect('/login')
   }
 
-  return <p>Hello {data.user.email}</p>
+  return(
+      <>
+          <p>Hello {data.user.email}</p>
+          <br /><br />
+          <Link href="/api/logout">Logout</Link>
+      </>
+  ) 
+
 }
