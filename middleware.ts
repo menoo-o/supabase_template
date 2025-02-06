@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
     await deleteClient()
 
     // Redirect the user to the login page or any other page after logout
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL('/account/signup', request.url))
   }
 
   // Otherwise, continue updating the session
