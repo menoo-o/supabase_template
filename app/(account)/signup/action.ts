@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/server';
 
 import { redirect } from 'next/navigation';
 
-export async function signup(prevState: any, formData: FormData) {
+export async function signup(prevState: unknown, formData: FormData) {
   const supabase = await createClient();
 
   // Parse and validate form data
@@ -40,7 +40,12 @@ export async function signup(prevState: any, formData: FormData) {
       },
       emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm`, // Redirect URL after OTP verification
     },
-  });
+    
+ }
+ 
+);
+
+console.log(data);
 
   // Handle Supabase errors
   if (error) {

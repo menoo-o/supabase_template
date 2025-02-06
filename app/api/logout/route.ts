@@ -7,5 +7,5 @@ export async function GET(request: NextRequest) {
     await deleteClient()
   
     // Redirect the user to the login page after logout
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL('/', request.url))
   }
