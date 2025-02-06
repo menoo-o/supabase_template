@@ -28,8 +28,28 @@ export async function signup(prevState: unknown, formData: FormData) {
   // Extract validated data
   const { firstName, lastName, email, password } = result.data;
 
-  // Sign up with Supabase
+
+    // Check if email already exists
+    const { data: existingUser, error: fetchError } = await supabase
+    .from('profiles') // Replace with 'auth.users' if you're querying the auth table
+    .select('email')
+    .eq('email', email)
+    .single();
+
+  if (existingUser) {
+    return {
+      errors: {
+        email: ['This email is already registered.'],
+      },
+      message: 'Email already exists.',
+    };
+  }
+
+  if (fetchError) {
+    return { error: "Database error. Please try again later." };
+  }
   
+  // Sign up with Supabase
   const { data, error } = await supabase.auth.signUp({
     email,
     password,

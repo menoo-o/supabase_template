@@ -9,7 +9,7 @@ export default async function Home() {
       <>
           <p>Hello homepage</p>
           <br /><br />
-          <Link href="/api/logout">Logout</Link>
+          
       </>
   ) 
 

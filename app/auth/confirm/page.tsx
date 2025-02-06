@@ -11,7 +11,7 @@ export default function ConfirmPage() {
 
         <br /> 
 
-        <Link href='/account'>Login Now</Link>
+        <Link href='/login'>Login Now</Link>
       </div>
     );
   }

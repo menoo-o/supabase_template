@@ -3,6 +3,7 @@
 
 import { useActionState } from 'react';
 import { login } from './actions';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(login, {
@@ -33,6 +34,9 @@ export default function LoginPage() {
         </button>
         {state.message && <p className="text-red-500">{state.message}</p>}
       </form>
+
+      <br />
+      <p>dont have a account? <Link href='/signup'>Signup</Link> </p>
     </>
   );
 }
