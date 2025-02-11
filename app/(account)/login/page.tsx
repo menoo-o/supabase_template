@@ -29,9 +29,11 @@ export default function LoginPage() {
             <p className="text-red-500">{state.errors.password.join(', ')}</p>
           )}
         </div>
+
         <button type="submit" disabled={isPending}>
           {isPending ? 'Logging In...' : 'Login'}
         </button>
+
         {state.message && <p className="text-red-500">{state.message}</p>}
       </form>
 

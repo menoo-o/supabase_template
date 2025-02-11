@@ -1,3 +1,5 @@
+'use server'
+
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
@@ -25,11 +27,13 @@ async function createClient() {
             }
         },
       },
+
       auth: {
           autoRefreshToken: true,
           persistSession: true,
           detectSessionInUrl: true,
       },
+      
     }
   )
 }
