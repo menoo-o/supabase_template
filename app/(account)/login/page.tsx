@@ -18,10 +18,12 @@ export default function LoginPage() {
         <div>
           <label htmlFor="email">Email</label>
           <input type="email" id="email" name="email" required />
+
           {state.errors?.email && (
             <p className="text-red-500">{state.errors.email.join(', ')}</p>
           )}
         </div>
+
         <div>
           <label htmlFor="password">Password</label>
           <input type="password" id="password" name="password" required />
@@ -35,6 +37,7 @@ export default function LoginPage() {
         </button>
 
         {state.message && <p className="text-red-500">{state.message}</p>}
+        
       </form>
 
       <br />

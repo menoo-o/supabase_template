@@ -29,25 +29,9 @@ export async function signup(prevState: unknown, formData: FormData) {
   const { firstName, lastName, email, password } = result.data;
 
 
+
     // Check if email already exists
-    const { data: existingUser, error: fetchError } = await supabase
-    .from('profiles') // Replace with 'auth.users' if you're querying the auth table
-    .select('email')
-    .eq('email', email)
-    .single();
 
-  if (existingUser) {
-    return {
-      errors: {
-        email: ['This email is already registered.'],
-      },
-      message: 'Email already exists.',
-    };
-  }
-
-  if (fetchError) {
-    return { error: "Database error. Please try again later." };
-  }
   
   // Sign up with Supabase
   const { data, error } = await supabase.auth.signUp({
@@ -58,7 +42,8 @@ export async function signup(prevState: unknown, formData: FormData) {
         first_name: firstName,
         last_name: lastName,
       },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm`, // Redirect URL after OTP verification
+      emailRedirectTo: `http://localhost:3000/auth/confirm`, // Redirect URL after OTP verification
+   
     },
     
  }
@@ -76,5 +61,5 @@ console.log(data);
   }
 
   // Redirect to a confirmation page
-  redirect('/auth/confirm');
+  redirect('/login');
 }
