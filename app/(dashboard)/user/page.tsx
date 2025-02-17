@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { addCountry } from './actions';
 import { v4 as uuidv4 } from 'uuid';
+import Link from 'next/link';
 
 export default function CountryForm() {
   const [state, setState] = useState({ message: '', error: '' });
@@ -49,10 +50,18 @@ export default function CountryForm() {
         {/* Submit Button */}
         <button type="submit">Add Country</button>
 
+        <Link href='/api/logout'></Link>
+
+        <br />
+
         {/* Success/Error Messages */}
         {state.message && <p className="text-green-500">{state.message}</p>}
         {state.error && <p className="text-red-500">{state.error}</p>}
       </form>
+
+      
+
+      <br />
     </div>
   );
 }

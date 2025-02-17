@@ -8,7 +8,7 @@ export default async function Home() {
           <p>Hello homepage</p>
           <br /><br />
           
-          <Link href='/admin'>View Dashboard</Link>
+          <Link href='/login'>login</Link>
       </>
   ) 
 

@@ -1,53 +1,80 @@
-
-
-import { createClient } from '@/utils/supabase/server';
-import Link from 'next/link';
+// app/(dashboard)/admin/page.tsx
 import { redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server';
 
-
-export default async function Dashboard() {
-  const supabase = await createClient()
-  const {data:clients, error:authError} = await supabase.auth.getUser();
-
-  if (authError || !clients?.user){
-    redirect('/login')
-  }
-    try {
-    // Fetch all clients from the database
-    const { data: clients, error } = await supabase
-      .from("clients")
-      .select("*")
-      
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return (
-      <div>
-        <h1>clients Dashboard</h1>
-        {clients?.length === 0 ? (
-          <p>No clients found.</p>
-        ) : (
-          <ul>
-            {clients.map((order: any) => (
-              <li key={order.id} className="order-card">
-                <h2>Order ID: {order.id}</h2>
-                <h3>NameL: {order.name}</h3>
-                <div>
-                  <h3>Items:</h3>
-              
-                </div>
-              </li>
-            ))}
-          </ul>
-          
-        )}
-        <Link href='/api/logout'>logout</Link>
-      </div>
-    );
-  } catch (error) {
-    console.error("Error fetching clients:", error);
-    return <p>Error loading orders. Please try again later.</p>;
-  }
+interface Client {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
 }
 
+interface Order {
+  id: string;
+  client_id: string;
+  items: { name: string; quantity: number; price: number }[];
+  status: string;
+  delivery_date: string;
+  total_amount: number;
+}
+
+export default async function AdminDashboard() {
+  const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  console.log(user?.role);
+  
+  return(
+    <>
+      <h1>user</h1>
+    </>
+  )
+
+//   if (role !== 'authenticated') {
+//     redirect('/unauthorized'); // Redirect if the user is not an admin
+//   }
+
+//   // Fetch all clients
+//   const { data: clients, error: clientsError } = await supabase
+//     .from('clients')
+//     .select('*');
+
+//   if (clientsError) {
+//     console.error('Error fetching clients:', clientsError);
+//     return <p>Error loading clients</p>;
+//   }
+
+//   // Fetch all orders
+//   const { data: orders, error: ordersError } = await supabase
+//     .from('orders')
+//     .select('*');
+
+//   if (ordersError) {
+//     console.error('Error fetching orders:', ordersError);
+//     return <p>Error loading orders</p>;
+//   }
+
+//   return (
+//     <div>
+//       <h1>Admin Dashboard</h1>
+//       <h2>Clients</h2>
+//       <ul>
+//         {clients?.map((client: Client) => (
+//           <li key={client.id}>
+//             {client.name} - {client.phone} - {client.address}
+//           </li>
+//         ))}
+//       </ul>
+//       <h2>Orders</h2>
+//       <ul>
+//         {orders?.map((order: Order) => (
+//           <li key={order.id}>
+//             {JSON.stringify(order.items)} - Total: £{order.total_amount} - Status:{' '}
+//             {order.status}
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+}

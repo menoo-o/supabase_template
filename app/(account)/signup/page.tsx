@@ -29,7 +29,7 @@ export default function SignupPage() {
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email" required />
+          <input type="email" id="email" name="email" required  />
           {state.errors?.email && (
             <p className="text-red-500">{state.errors.email.join(', ')}</p>
           )}
@@ -48,8 +48,11 @@ export default function SignupPage() {
             <p className="text-red-500">{state.errors.confirmPassword.join(', ')}</p>
           )}
         </div>
+
         <button type="submit" disabled={isPending}>
+
           {isPending ? 'Signing Up...' : 'Sign Up'}
+          
         </button>
         {state.message && <p className="text-red-500">{state.message}</p>}
       </form>

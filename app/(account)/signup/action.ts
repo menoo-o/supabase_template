@@ -43,7 +43,6 @@ export async function signup(prevState: unknown, formData: FormData) {
         last_name: lastName,
       },
       emailRedirectTo: `http://localhost:3000/auth/confirm`, // Redirect URL after OTP verification
-   
     },
     
  }
