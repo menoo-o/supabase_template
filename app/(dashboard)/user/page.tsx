@@ -1,67 +1,51 @@
-'use client';
+// app/(dashboard)/client/page.tsx
+import { redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server';
+interface Client {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+}
 
-import { useState } from 'react';
-import { addCountry } from './actions';
-import { v4 as uuidv4 } from 'uuid';
-import Link from 'next/link';
+export default async function ClientDashboard() {
+  const supabase = await createClient();
 
-export default function CountryForm() {
-  const [state, setState] = useState({ message: '', error: '' });
+  // Fetch the authenticated user
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (!user || error) {
+    redirect('/login'); // Redirect to login if not authenticated
+  }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  // Fetch the user's role from the `user_roles` table
+  const { data: userRoleData, error: userRoleError } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', user.id)
+    .single();
 
-    const formData = new FormData(event.target);
-    const response = await addCountry(formData);
+  if (userRoleError || userRoleData?.role !== 'client') {
+    redirect('/unauthorized'); // Redirect if the user is not a client
+  }
 
-    if (response.error) {
-      setState({ error: response.error, message: '' });
-    } else {
-      setState({ message: response.message, error: '' });
-      event.target.reset(); // Clear form after successful submission
-    }
+  // Fetch the client's own data
+  const { data: clientData, error: clientError } = await supabase
+    .from('clients')
+    .select('*')
+    .eq('user_id', user.id)
+    .single();
+
+  if (clientError) {
+    console.error('Error fetching client data:', clientError);
+    return <p>Error loading data</p>;
   }
 
   return (
     <div>
-      <h1>Add Country</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Hidden ID Field (UUID) */}
-        <input type="hidden" name="id" value={uuidv4()} />
-
-        {/* Name Input */}
-        <div>
-          <label htmlFor="name">Name</label>
-          <input type="text" id="name" name="name" required />
-        </div>
-
-        {/* Phone Input */}
-        <div>
-          <label htmlFor="phone">Phone</label>
-          <input type="text" id="phone" name="phone" required />
-        </div>
-
-        {/* Orders JSON Input */}
-        <div>
-          <label htmlFor="orders">Orders (JSON)</label>
-          <textarea id="orders" name="orders" required placeholder='[{"name": "brownies"}]'></textarea>
-        </div>
-
-        {/* Submit Button */}
-        <button type="submit">Add Country</button>
-
-        <Link href='/api/logout'></Link>
-
-        <br />
-
-        {/* Success/Error Messages */}
-        {state.message && <p className="text-green-500">{state.message}</p>}
-        {state.error && <p className="text-red-500">{state.error}</p>}
-      </form>
-
-      
-
-      <br />
+      <h1>Client Dashboard</h1>
+      <p>Name: {clientData.name}</p>
+      <p>Phone: {clientData.phone}</p>
+      <p>Address: {clientData.address}</p>
     </div>
   );
 }

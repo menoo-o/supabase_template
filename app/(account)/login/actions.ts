@@ -39,5 +39,5 @@ export async function login(prevState: unknown, formData: FormData) {
   }
 
   // Redirect to the dashboard on success
-  redirect('/user');
+  redirect('/admin');
 }
