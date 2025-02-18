@@ -6,8 +6,8 @@ export default async function Userpage() {
   const supabase = await createClient();
 
   const { data: userTypeData, error } = await supabase
-  .from('user_roles')
-  .select('role_post')
+  .from('clients')
+  .select('name')
   .eq('user_id', '2e0b722c-3ce7-4d96-b901-8583240e3373')
   .maybeSingle();
 
@@ -18,7 +18,7 @@ console.error('Supabase User Type Error:', error);
   return (
     <div>
       <h1>this is user page</h1>
-      <p>{userTypeData?.role_post}</p>
+      <p>{userTypeData?.name}</p>
       <br />
 
       

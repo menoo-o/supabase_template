@@ -37,7 +37,8 @@ export async function updateSession(request: NextRequest) {
     !user &&
     !request.nextUrl.pathname.startsWith('/signup') &&
     !request.nextUrl.pathname.startsWith('/login') && // ✅ Allow login page
-    !request.nextUrl.pathname.startsWith('/admin')
+    !request.nextUrl.pathname.startsWith('/dashboard/admin') &&
+    !request.nextUrl.pathname.startsWith('/dashboard/user')
   ) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
