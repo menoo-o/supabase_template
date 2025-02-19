@@ -3,6 +3,7 @@
 import { LoginFormSchema } from '@/lib/zod/loginFormSchema';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function login(prevState: unknown, formData: FormData) {
   const supabase = await createClient();
@@ -39,5 +40,6 @@ export async function login(prevState: unknown, formData: FormData) {
   }
 
   // Redirect to the dashboard on success
-  redirect('/dashboard/user');
+  revalidatePath('/')
+  redirect('/')
 }
